@@ -36,6 +36,19 @@ class Joueur2:
 
 class Jeu:
     def __init__(self, h, l, titre):
+        self.key_dict = {
+            pyxel.KEY_0: '0',
+            pyxel.KEY_1: '1',
+            pyxel.KEY_2: '2',
+            pyxel.KEY_3: '3',
+            pyxel.KEY_4: '4',
+            pyxel.KEY_5: '5',
+            pyxel.KEY_6: '6',
+            pyxel.KEY_7: '7',
+            pyxel.KEY_8: '8',
+            pyxel.KEY_9: '9',
+            pyxel.KEY_SEMICOLON: '.'
+        }
         self.block_sans_collision = [(0,0),(5,12),(0,16),(1,16),(0,17),(1,17),(2,16),(3,16),(2,17),(3,17),(1,13),(4,16),(5,16),(4,17),(5,17),(9,16),(9,17)]
         self.block_chache = [(0,16),(1,16),(0,17),(1,17),(2,16),(3,16),(2,17),(3,17)]
         self.imclient = False
@@ -121,60 +134,22 @@ class Jeu:
             pyxel.quit()
 
         #On permet au joueur de rentrer le code (pas natif dans pyxel)
-        if pyxel.btnp(pyxel.KEY_0):
-            if self.imclient == True:
-                self.code += "0"
-                self.texte += "0"
-        if pyxel.btnp(pyxel.KEY_1):
-            if self.imclient == True:
-                self.code += "1"
-                self.texte += "1"
-        if pyxel.btnp(pyxel.KEY_2):
-            if self.imclient == True:
-                self.code += "2"
-                self.texte += "2"
-        if pyxel.btnp(pyxel.KEY_3):
-            if self.imclient == True:
-                self.code += "3"
-                self.texte += "3"
-        if pyxel.btnp(pyxel.KEY_4):
-            if self.imclient == True:
-                self.code += "4"
-                self.texte += "4"
-        if pyxel.btnp(pyxel.KEY_5):
-            if self.imclient == True:
-                self.code += "5"
-                self.texte += "5"
-        if pyxel.btnp(pyxel.KEY_6):
-            if self.imclient == True:
-                self.code += "6"
-                self.texte += "6"
-        if pyxel.btnp(pyxel.KEY_7):
-            if self.imclient == True:
-                self.code += "7"
-                self.texte += "7"
-        if pyxel.btnp(pyxel.KEY_8):
-            if self.imclient == True:
-                self.code += "8"
-                self.texte += "8"
-        if pyxel.btnp(pyxel.KEY_9):
-            if self.imclient == True:
-                self.code += "9"
-                self.texte += "9"
-        if pyxel.btnp(pyxel.KEY_SEMICOLON):
-            if self.imclient == True:
-                self.code += "."
-                self.texte += "."
-        if pyxel.btnp(pyxel.KEY_BACKSPACE):
-            if self.imclient == True:
+        
+        if self.imclient:
+            for key, value in self.key_dict.items():
+                if pyxel.btnp(key):
+                    self.code += value
+                    self.texte += value
+
+            if pyxel.btnp(pyxel.KEY_BACKSPACE):
                 self.code = self.code[:-1]
                 self.texte = self.texte[:-1]
-        if pyxel.btnp(pyxel.KEY_RETURN):
-            if self.imclient == True:
-                if self.code != "":
-                    self.texte = ""
-                    self.client = Client(self.code)
-                    self.rectangle = Rectangle(0,0,0,0,0)
+
+            if pyxel.btnp(pyxel.KEY_RETURN) and self.code:
+                self.texte = ""
+                self.client = Client(self.code)
+                self.rectangle = Rectangle(0, 0, 0, 0, 0)
+
         # joueurs Joueur1 designe
         if pyxel.frame_count == 1:
             Music()
